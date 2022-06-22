@@ -1,0 +1,145 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-info">
+  <a class="navbar-brand" href="index.php">嘉南羊乳-詢問與解答系統(Home)</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <?php
+          if(isset($_SESSION["username"])){
+           if(basename($_SERVER['PHP_SELF']) == 'index.php'){
+                    echo '<li class="nav-item active">';
+              }else{
+                  echo '<li class="nav-item">';
+           }
+       ?>
+      <a class="nav-link" href="index.php">Home</a>
+    </li>
+      <?php
+          if(isset($_SESSION["username"])){ ?>
+            <li class="nav-item active">
+              <a class="nav-link" href="index.php">歡迎您!! <?php echo $_SESSION["username"];?> </a>
+            <li>
+       <?php }  ?>
+       <?php if(basename($_SERVER['PHP_SELF']) == 'htrd_list.php'){
+        echo '<li class="nav-item active">';
+        }else{
+         echo '<li class="nav-item">';
+         }?>
+         <a class="nav-link" href="htrd_list.php">異動</a>
+       </li>
+       <?php if(basename($_SERVER['PHP_SELF']) == 'marea_list.php'){
+        echo '<li class="nav-item active">';
+        }else{
+         echo '<li class="nav-item">';
+         }?>
+         <a class="nav-link" href="marea_list.php">路條</a>
+       </li>
+       <?php if(basename($_SERVER['PHP_SELF']) == 'pick_list.php'){
+        echo '<li class="nav-item active">';
+        }else{
+         echo '<li class="nav-item">';
+         }?>
+         <a class="nav-link" href="pick_list.php">撿奶</a>
+       </li>
+       <?php if(basename($_SERVER['PHP_SELF']) == 'hmonth_list.php'){
+        echo '<li class="nav-item active">';
+        }else{
+         echo '<li class="nav-item">';
+         }?>
+         <a class="nav-link" href="hmonth_list.php">月報</a>
+       </li>
+  
+      </li>
+      <?php if(basename($_SERVER['PHP_SELF']) == 'gcust_qty.php'){
+       echo '<li class="nav-item active">';
+       }else{
+        echo '<li class="nav-item">';
+        }?>
+        <a class="nav-link" href="gcust_qty.php">團業</a>
+      </li>
+      <?php
+      if ($_SESSION["role"]=='寫手' || $_SESSION["role"]=='審查員' || $_SESSION["role"]=='管理員'){ ?>
+      <?php if(basename($_SERVER['PHP_SELF']) == 'cat_list.php'){
+                     echo '<li class="nav-item active">';
+                     }else{
+                      echo '<li class="nav-item">';
+                      }?>
+      <a class="nav-link" href="cat_list.php">問答類別</a>
+      </li>
+      <?php if(basename($_SERVER['PHP_SELF']) == 'doc_list.php'){
+        echo '<li class="nav-item active">';
+        }else{
+         echo '<li class="nav-item">';
+         }?>
+         <a class="nav-link" href="doc_list.php">文件管理</a>
+       </li>
+       <?php if(basename($_SERVER['PHP_SELF']) == 'doc_type.php'){
+        echo '<li class="nav-item active">';
+        }else{
+         echo '<li class="nav-item">';
+         }?>
+       <a class="nav-link" href="doc_type.php">文件類別</a>
+       </li>
+      <?php }
+       if ($_SESSION["role"]=='管理員'){ 
+               if(basename($_SERVER['PHP_SELF']) == 'qnauser_list.php'){
+                  echo '<li class="nav-item active">';
+                  }else{
+                    echo '<li class="nav-item">';
+                  }
+                    echo '<a class="nav-link" href="qnauser_list.php">帳號管理</a>';
+                    echo '</li>';
+                  } ?>
+      <li class="nav-item">
+      <a class="nav-link" href="reset_pass.php">變更密碼</a>
+       </li>
+     
+       <li class="nav-item">
+        <a class="nav-link" href="videos.php">產業影片</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="logout.php">登出</a>
+      </li>
+    </ul>
+    <?php }else{?>
+   <li class="nav-item">
+       <?php if(basename($_SERVER['PHP_SELF']) == 'videos.php'){
+                echo '<li class="nav-item active">';
+                }else{
+                    echo '<li class="nav-item">';
+                } ?>
+        <a class="nav-link" href="videos.php">產業影片</a>
+      </li>
+    <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
+      <li class="dropdown order-1">
+        <button type="button" id="dropdownMenu1" data-toggle="dropdown"
+          class="btn btn-outline-warning dropdown-toggle">登入 <span class="caret"></span></button>
+        <ul class="dropdown-menu dropdown-menu-right mt-2">
+          <li class="px-2 py-2">
+            <form class="form" role="form" method="post" action="index.php">
+              <div class="form-group">
+                <input name='username' placeholder="帳號" class="form-control form-control-sm" type="text" required>
+              </div>
+              <div class="form-group">
+                <input id="userpass" name='userpass' placeholder="密碼" class="form-control form-control-sm"
+                  type="password" required>
+              </div>
+              <div class="form-group">
+                <?php $rcode = rand(1000,9999); //產生亂數5位碼 ?>
+                <input type="text" name="xcode" class="form-control form-control-sm" maxlength="4" size="4"
+                  placeholder=<?php echo '驗證碼:' . $rcode; ?> required>
+                <input type="hidden" name="acode" value="<?php echo $rcode; ?>">
+              </div>
+              <div class="form-group">
+                <button type="submit" name='login' class="btn btn-primary btn-block">登入</button>
+              </div>
+            </form>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <?php } ?>
+</nav>
+<p></p>
